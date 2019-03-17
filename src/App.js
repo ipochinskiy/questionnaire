@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
-import Questionnaire from './Questionnaire';
+import { Questionnaire } from './questionnaire';
 
 class App extends Component {
     render() {

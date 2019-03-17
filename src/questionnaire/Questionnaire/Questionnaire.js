@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appLoaded } from './actions';
-import Panel from './Panel';
+import { appLoaded } from '../actions';
+import Panel from '../Panel/Panel';
 import './Questionnaire.scss';
 
 export class Questionnaire extends Component {
