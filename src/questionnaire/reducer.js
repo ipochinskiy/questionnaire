@@ -17,6 +17,8 @@ function reducer(state = initialState, action = {}) {
                 ...state,
                 questionList,
             };
+        case ActionTypes.FETCH_FAILED:
+            // TODO: let user know about the error
         default:
             return state;
     }
