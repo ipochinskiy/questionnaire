@@ -6,13 +6,29 @@ describe('Component: Questionnaire', () => {
     let props;
 
     beforeEach(() => {
-        props = createComponentProps();
+        props = createComponentProps({
+            questionList: [
+                { key: 'first question' },
+                { key: 'second one' },
+            ],
+        });
     });
 
     it('should dispatch "appLoaded"', () => {
         shallow(<Questionnaire {...props} />);
 
         expect(props.appLoaded).toHaveBeenCalled();
+    });
+
+    it('should render two question panels', () => {
+        const component = shallow(<Questionnaire {...props} />);
+
+        expect(component.find('Panel').at(0).props()).toMatchObject({
+            question: { key: 'first question' },
+        });
+        expect(component.find('Panel').at(1).props()).toMatchObject({
+            question: { key: 'second one' },
+        });
     });
 });
 

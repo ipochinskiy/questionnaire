@@ -6,6 +6,7 @@ $content-padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
     width: calc(100% - #{$content-padding * 2});
     height: calc(100vh - #{$content-padding * 2});
@@ -13,4 +14,6 @@ $content-padding: 20px;
     background-color: $neutral1-l1;
 
     padding: $content-padding;
+    overflow-x: hidden;
+    overflow-y: auto;
 }

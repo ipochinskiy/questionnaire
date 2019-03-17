@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appLoaded } from './actions';
+import Panel from './Panel';
 import './Questionnaire.scss';
 
 export class Questionnaire extends Component {
@@ -10,8 +11,12 @@ export class Questionnaire extends Component {
     }
 
     render() {
+        const { questionList = [] } = this.props;
         return (
-            <div className="Questionnaire">
+            <div className='Questionnaire'>
+                {questionList.map(q =>
+                    <Panel key={q.key} question={q} />
+                )}
             </div>
         );
     }
@@ -19,6 +24,7 @@ export class Questionnaire extends Component {
 
 const mapStateToProps = state => {
     return {
+        questionList: state.questionList,
     };
 };
 
