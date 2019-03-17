@@ -1,4 +1,6 @@
 import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import loadQuestionListSaga from './load-question-list.saga';
 import appReducer from './reducer';
 
 const logger = store => next => action => {
@@ -12,9 +14,13 @@ const logger = store => next => action => {
     return result;
 }
 
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
     appReducer,
-    applyMiddleware(logger),
+    applyMiddleware(logger, sagaMiddleware),
 );
+
+sagaMiddleware.run(loadQuestionListSaga);
 
 export default store;
