@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { appLoaded } from './actions';
 import './Questionnaire.scss';
 
-class Questionnaire extends Component {
+export class Questionnaire extends Component {
+    componentDidMount() {
+        const { appLoaded } = this.props;
+        appLoaded();
+    }
+
     render() {
         return (
             <div className="Questionnaire">
@@ -10,4 +17,15 @@ class Questionnaire extends Component {
     }
 }
 
-export default Questionnaire;
+const mapStateToProps = state => {
+    return {
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        appLoaded: () => dispatch(appLoaded()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questionnaire);

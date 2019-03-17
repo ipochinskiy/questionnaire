@@ -1,9 +1,24 @@
+import { shallow } from 'enzyme';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Questionnaire from './Questionnaire';
+import { Questionnaire } from './Questionnaire';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Questionnaire />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe('Component: Questionnaire', () => {
+    let props;
+
+    beforeEach(() => {
+        props = createComponentProps();
+    });
+
+    it('should dispatch "appLoaded"', () => {
+        shallow(<Questionnaire {...props} />);
+
+        expect(props.appLoaded).toHaveBeenCalled();
+    });
 });
+
+function createComponentProps(options = {}) {
+    return {
+        appLoaded: jest.fn(),
+        ...options,
+    };
+}
