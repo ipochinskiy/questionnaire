@@ -1,0 +1,16 @@
+@import './colors.scss';
+
+$content-padding: 20px;
+
+.Questionnaire {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: calc(100% - #{$content-padding * 2});
+    height: calc(100vh - #{$content-padding * 2});
+
+    background-color: $neutral1-l1;
+
+    padding: $content-padding;
+}
