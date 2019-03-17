@@ -1,11 +1,19 @@
 @import '../../colors.scss';
 
-$content-padding: 20px;
+$standard-margin: 24px;
 
 .Questionnaire {
     background-color: $neutral1-l1;
 
-    padding: $content-padding;
+    padding: $standard-margin;
     overflow-x: hidden;
     overflow-y: auto;
+
+    & > * {
+        margin-bottom: $standard-margin;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
