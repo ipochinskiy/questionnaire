@@ -67,7 +67,7 @@
                             "label" :"Stark",
                             "value": "strong"
                         }
-                    ]   
+                    ]
                 },
                 {
                     "key": "teeth_spaces",
@@ -85,7 +85,7 @@
                             "label" :"Stark",
                             "value": "strong"
                         }
-                    ]   
+                    ]
                 },
                 {
                     "key": "teeth_tight",
@@ -103,7 +103,7 @@
                             "label" :"Stark",
                             "value": "strong"
                         }
-                    ]   
+                    ]
                 },
                 {
                     "key": "teeth_colored",
@@ -121,7 +121,7 @@
                             "label" :"Stark",
                             "value": "strong"
                         }
-                    ]   
+                    ]
                 }
             ]
         },
@@ -166,7 +166,7 @@
         "isRequired": true
     },
     {
-        "key": "jaw",
+        "key": "gingival",
         "type": "single",
         "data": {
             "question": "Leidest du an Zahnfleischproblemen?",
@@ -204,7 +204,7 @@
         "isRequired": true
     },
     {
-        "key": "silicon_allergy",
+        "key": "smile_bother",
         "type": "textarea",
         "data": {
             "question": "Was stört dich an deinem Lächeln am meisten?",
