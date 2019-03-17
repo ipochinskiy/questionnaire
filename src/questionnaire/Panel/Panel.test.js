@@ -10,7 +10,19 @@ describe('Component: Panel', () => {
             'with a question of type "single"',
             'should render all the radio options',
             { question: createRadioQuestion() },
-            component => expect(component).toIncludeText('radio'),
+            component => expect(component.find('Radio').at(0).props()).toMatchObject({
+                group: 'single question',
+                selectedValue: null,
+                itemList: [
+                    { value: 'iman', label: 'Iron Man' },
+                    { value: 'cap', label: 'Captain America' },
+                    { value: 'thor', label: 'Thor' },
+                ],
+            }),
+            component => component.find('Radio').at(0).prop('handleSelect')('cap'),
+            component => expect(component).toHaveState({
+                'single question': 'cap',
+            }),
         ],
         [
             'with a question of type "select"',
@@ -36,7 +48,7 @@ describe('Component: Panel', () => {
             { question: createTextQuestion() },
             component => expect(component).toIncludeText('text'),
         ],
-    ].forEach(([ description, assumption, props, checkRender ]) => {
+    ].forEach(([ description, assumption, props, checkRender, changeValue, checkState ]) => {
         describe(description, () => {
             let component;
 
@@ -49,6 +61,17 @@ describe('Component: Panel', () => {
                 expect(component).toIncludeText(`Which Avanger is the best?`);
                 expect(component).toIncludeText(`Choose wise, there's no way back`);
                 checkRender(component);
+            });
+
+            changeValue && describe('after value change is triggered', () => {
+                beforeEach(() => {
+                    changeValue(component);
+                });
+
+                it(`should update the component's state`, () => {
+
+                    checkState(component);
+                });
             });
         });
     });

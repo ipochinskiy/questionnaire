@@ -1,14 +1,33 @@
 import React, { Component } from 'react';
+import { Radio } from '../../ui-components';
 import './Panel.scss';
 
 class Panel extends Component {
+    constructor(props) {
+        super(props);
+        this.handleRadioChange = this.handleRadioChange.bind(this);
+    }
+
+    handleRadioChange(key, value) {
+        this.setState({
+            [key]: value,
+        });
+    }
+
     render() {
         const { question: { key, type, data = {}, isRequired } = {} } = this.props;
         const { question, body, answers } = data;
+        const selectedValue = this.state && this.state[key];
+
         let control;
         switch (type) {
             case 'single':
-                control = 'radio';
+                control = <Radio
+                    group={key}
+                    itemList={answers}
+                    selectedValue={selectedValue}
+                    handleSelect={(value) => this.handleRadioChange(key, value)}
+                />;
                 break;
             case 'select':
                 control = 'select';
