@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Radio } from '../../ui-components';
+import { Radio, Select } from '../../ui-components';
 import './Panel.scss';
 
 class Panel extends Component {
     constructor(props) {
         super(props);
-        this.handleRadioChange = this.handleRadioChange.bind(this);
+        this.handleValueChange = this.handleValueChange.bind(this);
     }
 
-    handleRadioChange(key, value) {
+    handleValueChange(key, value) {
         this.setState({
             [key]: value,
         });
@@ -26,11 +26,15 @@ class Panel extends Component {
                     group={key}
                     itemList={answers}
                     selectedValue={selectedValue}
-                    handleSelect={(value) => this.handleRadioChange(key, value)}
+                    handleSelect={(value) => this.handleValueChange(key, value)}
                 />;
                 break;
             case 'select':
-                control = 'select';
+                control = <Select
+                    name={key}
+                    valueList={answers}
+                    handleSelect={value => this.handleValueChange(key, value)}
+                />;
                 break;
             case 'multiple':
                 control = 'multiple';

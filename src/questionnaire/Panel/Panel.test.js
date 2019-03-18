@@ -28,7 +28,14 @@ describe('Component: Panel', () => {
             'with a question of type "select"',
             'should render all the select options',
             { question: createSelectQuestion() },
-            component => expect(component).toIncludeText('select'),
+            component => expect(component.find('Select').at(0).props()).toMatchObject({
+                name: 'select question',
+                valueList: [ 'Iron Man', 'Captain America', 'Thor' ],
+            }),
+            component => component.find('Select').at(0).prop('handleSelect')('Thor'),
+            component => expect(component).toHaveState({
+                'select question': 'Thor',
+            }),
         ],
         [
             'with a question of type "multiple"',
