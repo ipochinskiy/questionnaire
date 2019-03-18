@@ -1,0 +1,12 @@
+@import '../../colors.scss';
+
+.Select {
+    background-color: $neutral2;
+    color: $neutral3-6;
+    padding: 4px;
+    min-width: 50px;
+    outline: none;
+
+    font-size: 16px;
+    line-height: 20px;
+}

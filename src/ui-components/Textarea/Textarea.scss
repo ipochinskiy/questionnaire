@@ -1,0 +1,14 @@
+@import '../../colors.scss';
+
+.Textarea {
+    & textarea {
+        width: 80%;
+        resize: none;
+        border: none;
+        border-radius: 4px;
+        outline: none;
+        padding: 8px;
+        font-size: 16px;
+        line-height: 20px;
+    }
+}

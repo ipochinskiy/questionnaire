@@ -1,0 +1,51 @@
+@import '../../colors.scss';
+
+.Radio {
+    display: flex;
+    font-size: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &__item {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 5px;
+        margin-top: 8px;
+        cursor: pointer;
+    }
+
+    &__value {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+
+        &:checked ~ .Radio__checkmark {
+            box-shadow: inset 0 0 0 7px $neutral2;
+            background: $primary2;
+        }
+    }
+
+    &__checkmark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 30px;
+        min-width: 30px;
+        border: 1px solid $neutral3-4;
+        border-radius: 15px;
+        color: $neutral3-6;
+        background: $neutral2;
+
+        &:after {
+            overflow: visible;
+        }
+    }
+
+    &__label {
+        margin-left: 10px;
+        color: $neutral3-6;
+        font-size: 16px;
+    }
+}
