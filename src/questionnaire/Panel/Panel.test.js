@@ -102,7 +102,11 @@ describe('Component: Panel', () => {
             'with a question of type "text"',
             'should render all the text options',
             { question: createTextQuestion() },
-            component => expect(component).toIncludeText('text'),
+            component => expect(component.find('Text')).toExist(),
+            component => component.find('Text').at(0).prop('handleChange')('If you can dream it up, you can team it up'),
+            component => expect(component).toHaveState({
+                'text question': 'If you can dream it up, you can team it up',
+            }),
         ],
     ].forEach(([ description, assumption, props, checkRender, changeValue, checkState ]) => {
         describe(description, () => {
@@ -119,7 +123,7 @@ describe('Component: Panel', () => {
                 checkRender(component);
             });
 
-            changeValue && describe('after value change is triggered', () => {
+            describe('after value change is triggered', () => {
                 beforeEach(() => {
                     changeValue(component);
                 });
