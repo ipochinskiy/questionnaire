@@ -41,7 +41,52 @@ describe('Component: Panel', () => {
             'with a question of type "multiple"',
             'should render all the multiple options',
             { question: createMultiQuestion() },
-            component => expect(component).toIncludeText('multiple'),
+            component => expect(component.find('Multi').at(0).props()).toMatchObject({
+                itemList: [
+                    {
+                        "key": "the_strongest",
+                        "label": "Rate the strength",
+                        "options": [
+                            {
+                                "label": "Iron Man",
+                                "value": "iman"
+                            },
+                            {
+                                "label": "Captain America",
+                                "value": "cap"
+                            },
+                            {
+                                "label": "Thor",
+                                "value": "thor"
+                            },
+                        ],
+                    },
+                    {
+                        "key": "the_smartest",
+                        "label": "Rate intelligence",
+                        "options": [
+                            {
+                                "label": "Iron Man",
+                                "value": "iman"
+                            },
+                            {
+                                "label": "Captain America",
+                                "value": "cap"
+                            },
+                            {
+                                "label": "Thor",
+                                "value": "thor"
+                            },
+                        ],
+                    },
+                ],
+            }),
+            component => component.find('Multi').at(0).prop('handleSelect')({ 'the_strongest': 'iman' }),
+            component => expect(component).toHaveState({
+                'multiple question': {
+                    'the_strongest': 'iman',
+                },
+            }),
         ],
         [
             'with a question of type "textarea"',
@@ -78,6 +123,37 @@ describe('Component: Panel', () => {
                 it(`should update the component's state`, () => {
 
                     checkState(component);
+                });
+            });
+        });
+    });
+
+    describe('with a question of type "multiple"', () => {
+        let component;
+
+        beforeEach(() => {
+            props = { question: createMultiQuestion() };
+            component = shallow(<Panel {...props} />);
+        });
+
+        describe('after value change is triggered', () => {
+            beforeEach(() => {
+                component.find('Multi').at(0).prop('handleSelect')({ 'the_strongest': 'iman' });
+            });
+
+            describe('and after value change is triggered again for another key', () => {
+                beforeEach(() => {
+                    component.find('Multi').at(0).prop('handleSelect')({ 'the_smartest': 'cap' });
+                });
+
+                it(`should patch the component's state and keep the previously set value`, () => {
+
+                    expect(component).toHaveState({
+                        'multiple question': {
+                            'the_strongest': 'iman',
+                            'the_smartest': 'cap',
+                        },
+                    });
                 });
             });
         });

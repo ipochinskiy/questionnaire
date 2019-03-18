@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Radio, Select } from '../../ui-components';
+import { Multi, Radio, Select } from '../../ui-components';
 import './Panel.scss';
 
 class Panel extends Component {
@@ -9,9 +9,18 @@ class Panel extends Component {
     }
 
     handleValueChange(key, value) {
+        if (this.state && typeof this.state[key] == 'object') {
+            this.setState({
+                [key]: {
+                    ...this.state[key],
+                    ...value,
+                },
+            });
+        } else {
         this.setState({
             [key]: value,
         });
+    }
     }
 
     render() {
@@ -26,7 +35,7 @@ class Panel extends Component {
                     group={key}
                     itemList={answers}
                     selectedValue={selectedValue}
-                    handleSelect={(value) => this.handleValueChange(key, value)}
+                    handleSelect={value => this.handleValueChange(key, value)}
                 />;
                 break;
             case 'select':
@@ -37,7 +46,11 @@ class Panel extends Component {
                 />;
                 break;
             case 'multiple':
-                control = 'multiple';
+                control = <Multi
+                    itemList={answers}
+                    selectedValue={selectedValue}
+                    handleSelect={value => this.handleValueChange(key, value)}
+                />;
                 break;
             case 'textarea':
                 control = 'textarea';
