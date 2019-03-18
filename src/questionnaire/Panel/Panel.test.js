@@ -92,7 +92,11 @@ describe('Component: Panel', () => {
             'with a question of type "textarea"',
             'should render all the textarea options',
             { question: createTextareaQuestion() },
-            component => expect(component).toIncludeText('textarea'),
+            component => expect(component.find('Textarea')).toExist(),
+            component => component.find('Textarea').at(0).prop('handleChange')('If you can dream it up, you can team it up'),
+            component => expect(component).toHaveState({
+                'textarea question': 'If you can dream it up, you can team it up',
+            }),
         ],
         [
             'with a question of type "text"',

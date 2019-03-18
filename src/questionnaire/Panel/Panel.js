@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Multi, Radio, Select } from '../../ui-components';
+import { Multi, Radio, Select, Textarea } from '../../ui-components';
 import './Panel.scss';
 
 class Panel extends Component {
@@ -17,10 +17,10 @@ class Panel extends Component {
                 },
             });
         } else {
-        this.setState({
-            [key]: value,
-        });
-    }
+            this.setState({
+                [key]: value,
+            });
+        }
     }
 
     render() {
@@ -53,7 +53,9 @@ class Panel extends Component {
                 />;
                 break;
             case 'textarea':
-                control = 'textarea';
+                control = <Textarea
+                    handleChange={value => this.handleValueChange(key, value)}
+                />;
                 break;
             case 'text':
                 control = 'text';
