@@ -1,12 +1,8 @@
 {
-  "name": "questionnaire",
+  "name": "questionnaire-client",
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "fastify": "^2.1.0",
-    "fastify-cors": "^2.1.2",
-    "fastify-error-page": "^2.0.0",
-    "fastify-static": "^2.3.4",
     "node-sass": "^4.11.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
@@ -16,11 +12,10 @@
     "redux-saga": "^1.0.2"
   },
   "scripts": {
-    "start-client": "react-scripts start",
-    "build-client": "react-scripts build",
-    "test-client": "react-scripts test",
-    "eject-client": "react-scripts eject",
-    "start-server": "nodemon server/index.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,7 +30,6 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
     "jest-environment-enzyme": "^7.0.1",
-    "jest-enzyme": "^7.0.1",
-    "nodemon": "^1.18.10"
+    "jest-enzyme": "^7.0.1"
   }
 }
