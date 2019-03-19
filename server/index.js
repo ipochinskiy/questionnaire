@@ -11,7 +11,7 @@ fastify.register(require('fastify-static'), {
     prefix: '/',
 });
 
-fastify.listen(3000, function (err, address) {
+fastify.listen(5000, function (err, address) {
     if (err) {
         fastify.log.error(err);
         process.exit(1);
