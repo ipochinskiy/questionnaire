@@ -11,8 +11,6 @@ fastify.register(require('fastify-static'), {
     prefix: '/',
 });
 
-fastify.register(require('./questionnaire'));
-
 fastify.listen(3000, function (err, address) {
     if (err) {
         fastify.log.error(err);
