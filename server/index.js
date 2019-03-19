@@ -4,6 +4,8 @@ const fastify = require('fastify')({
     logger: true,
 });
 
+fastify.register(require('fastify-cors'));
+
 fastify.register(require('fastify-static'), {
     root: path.join(__dirname, '../public'),
     prefix: '/',
