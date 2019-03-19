@@ -11,7 +11,7 @@ export function* fetchQuestionList(action) {
 }
 
 function loadQuestionList() {
-    return fetch('/questionnaire.json')
+    return fetch('http://localhost:5000/questionnaire.json')
         .then(response => response.json());
 }
 
