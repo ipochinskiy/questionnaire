@@ -1,0 +1,17 @@
+{
+  "name": "questionnaire-server",
+  "version": "0.2.0",
+  "private": true,
+  "dependencies": {
+    "fastify": "^2.1.0",
+    "fastify-cors": "^2.1.2",
+    "fastify-error-page": "^2.0.0",
+    "fastify-static": "^2.3.4"
+  },
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
