@@ -10,7 +10,9 @@
     "fastify-static": "^2.3.4"
   },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "test": "mocha \"./src/**/*.test.js\"",
+    "test:watch": "mocha -w \"./src/**/*.test.js\" -r ./prepareTests.js"
   },
   "devDependencies": {
     "hamjest": "^3.2.3",
