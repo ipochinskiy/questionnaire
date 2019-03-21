@@ -12,6 +12,7 @@ ENV PATH /opt/node_modules/.bin:$PATH
 WORKDIR /opt/app
 COPY . /opt/app
 
+RUN sleep 10
 CMD ["npm", "start"]
 
 EXPOSE 5000
