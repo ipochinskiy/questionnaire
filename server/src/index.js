@@ -4,6 +4,11 @@ const fastify = require('fastify')({
     logger: true,
 });
 
+fastify.register(require('fastify-mongodb'), {
+    forceClose: true,
+    url: 'mongodb://mongodb:27017/',
+});
+
 fastify.register(require('fastify-cors'));
 
 fastify.register(require('fastify-static'), {
