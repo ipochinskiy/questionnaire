@@ -13,6 +13,9 @@
     "start": "nodemon src/index.js"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "hamjest": "^3.2.3",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "supertest": "^4.0.2"
   }
 }
