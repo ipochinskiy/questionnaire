@@ -9,7 +9,7 @@
     "fastify-static": "^2.3.4"
   },
   "scripts": {
-    "start": "nodemon server/index.js"
+    "start": "nodemon src/index.js"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
