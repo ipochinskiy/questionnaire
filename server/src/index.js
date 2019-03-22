@@ -1,4 +1,5 @@
 const path = require('path');
+const questionnaire = require('./questionnaire/index');
 
 const fastify = require('fastify')({
     logger: true,
@@ -15,6 +16,7 @@ fastify.register(require('fastify-static'), {
     root: path.join(__dirname, '../public'),
     prefix: '/',
 });
+fastify.register(questionnaire);
 
 fastify.listen(5000, '0.0.0.0', function (err, address) {
     if (err) {
