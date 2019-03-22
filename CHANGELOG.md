@@ -1,3 +1,7 @@
+# 0.4.0 (2019-03-22)
+
+* use a database for getting questions instead of serving a static file
+
 # 0.3.0 (2019-03-21)
 
 * add a server serving a static questions data
