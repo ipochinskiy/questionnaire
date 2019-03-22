@@ -1,5 +1,6 @@
 export const ActionTypes = {
     APP_LOADED:                '[App] App Loaded',
+    QUESTIONNAIRE_SUBMITTED:   '[App] Questionnaire Submitted',
     QUESTION_LIST_LOADED:      '[App] Question List Loaded',
     FETCH_FAILED:              '[App] Fetch failed',
 };
@@ -7,6 +8,13 @@ export const ActionTypes = {
 export function appLoaded() {
     return {
         type: ActionTypes.APP_LOADED,
+    };
+}
+
+export function questionnaireSubmitted(questionnaire) {
+    return {
+        type: ActionTypes.QUESTIONNAIRE_SUBMITTED,
+        payload: { questionnaire },
     };
 }
 

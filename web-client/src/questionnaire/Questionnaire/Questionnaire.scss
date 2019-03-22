@@ -16,4 +16,9 @@ $standard-margin: 24px;
             margin-bottom: 0;
         }
     }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+    }
 }
