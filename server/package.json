@@ -10,7 +10,8 @@
     "fastify-static": "^2.3.4"
   },
   "scripts": {
-    "start": "nodemon --inspect-brk=0.0.0.0 src/index.js",
+    "start": "nodemon src/index.js",
+    "debug": "npm start -- --inspect-brk=0.0.0.0",
     "test": "mocha --recursive \"./src/**/*.test.js\"",
     "test:watch": "npm test -- -w"
   },
