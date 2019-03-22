@@ -1,4 +1,4 @@
-const INITIAL_DATA = require('./public/questions.json');
+const INITIAL_DATA = require('../../questions.json');
 
 const initializeController = require('./controller');
 const initializeRepository = require('./repository');
