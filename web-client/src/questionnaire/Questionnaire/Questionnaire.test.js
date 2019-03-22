@@ -6,12 +6,7 @@ describe('Component: Questionnaire', () => {
     let props;
 
     beforeEach(() => {
-        props = createComponentProps({
-            questionList: [
-                { key: 'first question' },
-                { key: 'second one' },
-            ],
-        });
+        props = createComponentProps();
     });
 
     it('should dispatch "appLoaded"', () => {
@@ -25,9 +20,73 @@ describe('Component: Questionnaire', () => {
 
         expect(component.find('Panel').at(0).props()).toMatchObject({
             question: { key: 'first question' },
+            selectedValue: null,
         });
         expect(component.find('Panel').at(1).props()).toMatchObject({
             question: { key: 'second one' },
+            selectedValue: null,
+        });
+    });
+
+    describe('with some questions having selected values in the state', () => {
+        let component;
+
+        beforeEach(() => {
+            component = shallow(<Questionnaire {...props} />);
+            component.setState({
+                'first question': '42',
+                'second one': '0815',
+            });
+        });
+
+        it('should set thos values as "selectedValue" on the panels', () => {
+
+            expect(component.find('Panel').at(0).props()).toMatchObject({
+                question: { key: 'first question' },
+                selectedValue: '42',
+            });
+            expect(component.find('Panel').at(1).props()).toMatchObject({
+                question: { key: 'second one' },
+                selectedValue: '0815',
+            });
+        });
+    });
+
+    describe('after a panel sets an object-value for a key', () => {
+        let component;
+
+        beforeEach(() => {
+            component = shallow(<Questionnaire {...props} />);
+            component.find('Panel').at(0).prop('handleValueChange')('best_avenger', {
+                'the_smartest': 'iman',
+            });
+        });
+
+        it('should set the state to this value', () => {
+
+            expect(component).toHaveState({
+                'best_avenger': {
+                    'the_smartest': 'iman',
+                },
+            });
+        });
+
+        describe('and after a panel amends the object-value for the same key', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('best_avenger', {
+                    'the_strongest': 'hulk',
+                });
+            });
+
+            it('should amend the state and keep previous info', () => {
+
+                expect(component).toHaveState({
+                    'best_avenger': {
+                        'the_smartest': 'iman',
+                        'the_strongest': 'hulk',
+                    },
+                });
+            });
         });
     });
 
@@ -46,15 +105,23 @@ describe('Component: Questionnaire', () => {
 
         beforeEach(() => {
             component = shallow(<Questionnaire {...props} />);
+            component.setState({
+                'first question': '42',
+                'second one': '0815',
+            });
             component.find('form').simulate('submit', {
                 preventDefault: jest.fn(),
             });
         });
 
-        it(`should dispatch "questionnaireSubmitted"`, () => {
+        it(`should dispatch "questionnaireSubmitted"[ with the current component's state]`, () => {
             shallow(<Questionnaire {...props} />);
 
             expect(props.questionnaireSubmitted).toHaveBeenCalledTimes(1);
+            expect(props.questionnaireSubmitted).toHaveBeenCalledWith({
+                'first question': '42',
+                'second one': '0815',
+            });
         });
     });
 
@@ -171,6 +238,10 @@ describe('Component: Questionnaire', () => {
 
 function createComponentProps(options = {}) {
     return {
+        questionList: [
+            { key: 'first question' },
+            { key: 'second one' },
+        ],
         appLoaded: jest.fn(),
         questionnaireSubmitted: jest.fn(),
         ...options,

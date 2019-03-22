@@ -10,6 +10,7 @@ export class Questionnaire extends Component {
         super(props);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleResetForm = this.handleResetForm.bind(this);
+        this.handleValueChange = this.handleValueChange.bind(this);
     }
 
     componentDidMount() {
@@ -40,13 +41,37 @@ export class Questionnaire extends Component {
         }
     }
 
+    handleValueChange(key, value) {
+        if (this.state && typeof this.state[key] == 'object') {
+            this.setState({
+                [key]: {
+                    ...this.state[key],
+                    ...value,
+                },
+            });
+        } else {
+            this.setState({
+                [key]: value,
+            });
+        }
+    }
+
     render() {
         const { questionList = [] } = this.props;
+
+        const panelList = questionList.map(q => {
+            const selectedValue = this.state && this.state[q.key] || null;
+            return <Panel
+                key={q.key}
+                question={q}
+                selectedValue={selectedValue}
+                handleValueChange={this.handleValueChange}
+            />;
+        });
+
         return (
             <form className='Questionnaire' onSubmit={this.handleSubmitForm}>
-                {questionList.map(q =>
-                    <Panel key={q.key} question={q} />
-                )}
+                {panelList}
                 <div className='Questionnaire__buttons'>
                     <Button shape='primary' type='submit'>Submit</Button>
                     <Button shape='neutral' type='reset' onClick={this.handleResetForm}>Reset</Button>
@@ -65,7 +90,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         appLoaded: () => dispatch(appLoaded()),
-        questionnaireSubmitted: () => dispatch(questionnaireSubmitted()),
+        questionnaireSubmitted: state => dispatch(questionnaireSubmitted(state)),
     };
 };
 

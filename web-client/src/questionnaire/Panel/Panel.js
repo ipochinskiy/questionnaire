@@ -9,24 +9,13 @@ class Panel extends Component {
     }
 
     handleValueChange(key, value) {
-        if (this.state && typeof this.state[key] == 'object') {
-            this.setState({
-                [key]: {
-                    ...this.state[key],
-                    ...value,
-                },
-            });
-        } else {
-            this.setState({
-                [key]: value,
-            });
-        }
+        const { handleValueChange } = this.props;
+        handleValueChange(key, value);
     }
 
     render() {
-        const { question: { key, type, data = {}, isRequired } = {} } = this.props;
+        const { question: { key, type, data = {}, isRequired } = {}, selectedValue } = this.props;
         const { question, body, answers } = data;
-        const selectedValue = this.state && this.state[key];
 
         let control;
         switch (type) {

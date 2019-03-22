@@ -12,7 +12,7 @@ describe('Component: Panel', () => {
             { question: createRadioQuestion() },
             component => expect(component.find('Radio').at(0).props()).toMatchObject({
                 group: 'single question',
-                selectedValue: null,
+                selectedValue: 'cap',
                 itemList: [
                     { value: 'iman', label: 'Iron Man' },
                     { value: 'cap', label: 'Captain America' },
@@ -20,9 +20,7 @@ describe('Component: Panel', () => {
                 ],
             }),
             component => component.find('Radio').at(0).prop('handleSelect')('cap'),
-            component => expect(component).toHaveState({
-                'single question': 'cap',
-            }),
+            stubHandler => expect(stubHandler).toHaveBeenCalledWith('single question', 'cap'),
         ],
         [
             'with a question of type "select"',
@@ -33,15 +31,14 @@ describe('Component: Panel', () => {
                 valueList: [ 'Iron Man', 'Captain America', 'Thor' ],
             }),
             component => component.find('Select').at(0).prop('handleSelect')('Thor'),
-            component => expect(component).toHaveState({
-                'select question': 'Thor',
-            }),
+            stubHandler => expect(stubHandler).toHaveBeenCalledWith('select question', 'Thor'),
         ],
         [
             'with a question of type "multiple"',
             'should render all the multiple options',
             { question: createMultiQuestion() },
             component => expect(component.find('Multi').at(0).props()).toMatchObject({
+                selectedValue: 'cap',
                 itemList: [
                     {
                         "key": "the_strongest",
@@ -82,11 +79,7 @@ describe('Component: Panel', () => {
                 ],
             }),
             component => component.find('Multi').at(0).prop('handleSelect')({ 'the_strongest': 'iman' }),
-            component => expect(component).toHaveState({
-                'multiple question': {
-                    'the_strongest': 'iman',
-                },
-            }),
+            stubHandler => expect(stubHandler).toHaveBeenCalledWith('multiple question', { 'the_strongest': 'iman' }),
         ],
         [
             'with a question of type "textarea"',
@@ -94,9 +87,7 @@ describe('Component: Panel', () => {
             { question: createTextareaQuestion() },
             component => expect(component.find('Textarea')).toExist(),
             component => component.find('Textarea').at(0).prop('handleChange')('If you can dream it up, you can team it up'),
-            component => expect(component).toHaveState({
-                'textarea question': 'If you can dream it up, you can team it up',
-            }),
+            stubHandler => expect(stubHandler).toHaveBeenCalledWith('textarea question', 'If you can dream it up, you can team it up'),
         ],
         [
             'with a question of type "text"',
@@ -104,15 +95,14 @@ describe('Component: Panel', () => {
             { question: createTextQuestion() },
             component => expect(component.find('Text')).toExist(),
             component => component.find('Text').at(0).prop('handleChange')('If you can dream it up, you can team it up'),
-            component => expect(component).toHaveState({
-                'text question': 'If you can dream it up, you can team it up',
-            }),
+            stubHandler => expect(stubHandler).toHaveBeenCalledWith('text question', 'If you can dream it up, you can team it up'),
         ],
-    ].forEach(([ description, assumption, props, checkRender, changeValue, checkState ]) => {
+    ].forEach(([ description, assumption, options, checkRender, changeValue, checkState ]) => {
         describe(description, () => {
             let component;
 
             beforeEach(() => {
+                props = createComponentProps(options);
                 component = shallow(<Panel {...props} />);
             });
 
@@ -130,43 +120,21 @@ describe('Component: Panel', () => {
 
                 it(`should update the component's state`, () => {
 
-                    checkState(component);
-                });
-            });
-        });
-    });
-
-    describe('with a question of type "multiple"', () => {
-        let component;
-
-        beforeEach(() => {
-            props = { question: createMultiQuestion() };
-            component = shallow(<Panel {...props} />);
-        });
-
-        describe('after value change is triggered', () => {
-            beforeEach(() => {
-                component.find('Multi').at(0).prop('handleSelect')({ 'the_strongest': 'iman' });
-            });
-
-            describe('and after value change is triggered again for another key', () => {
-                beforeEach(() => {
-                    component.find('Multi').at(0).prop('handleSelect')({ 'the_smartest': 'cap' });
-                });
-
-                it(`should patch the component's state and keep the previously set value`, () => {
-
-                    expect(component).toHaveState({
-                        'multiple question': {
-                            'the_strongest': 'iman',
-                            'the_smartest': 'cap',
-                        },
-                    });
+                    checkState(props.handleValueChange);
                 });
             });
         });
     });
 });
+
+function createComponentProps(options = {}) {
+    return {
+        question: createRadioQuestion(),
+        selectedValue: 'cap',
+        handleValueChange: jest.fn(),
+        ...options,
+    };
+}
 
 function createRadioQuestion(options = {}) {
     return {
