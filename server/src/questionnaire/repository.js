@@ -25,7 +25,6 @@ async function initRepository({ collection, initialData, logger}) {
             }
 
             if (!Array.isArray(result)) {
-                console.log(result);
                 throw new Error(`Couldn't get questions from the db`);
             }
             return result;
