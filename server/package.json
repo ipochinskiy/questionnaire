@@ -6,12 +6,19 @@
     "fastify": "^2.1.0",
     "fastify-cors": "^2.1.2",
     "fastify-error-page": "^2.0.0",
-    "fastify-static": "^2.3.4"
+    "fastify-mongodb": "^1.0.1"
   },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "debug": "npm start -- --inspect-brk=0.0.0.0",
+    "test": "mocha --recursive \"./src/**/*.test.js\"",
+    "test:watch": "npm test -- -w"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "hamjest": "^3.2.3",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "sinon": "^7.3.0",
+    "supertest": "^4.0.2"
   }
 }
