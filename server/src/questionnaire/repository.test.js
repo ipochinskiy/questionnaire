@@ -199,7 +199,7 @@ describe('Questionnaire: Repository', () => {
             describe('when "collection.find" returns an array', () => {
                 beforeEach(() => {
                     collection.find.resolves({
-                        toArray: stub().returns([ 1, 2, 3 ]),
+                        toArray: stub().resolves([ 1, 2, 3 ]),
                     });
                 });
 

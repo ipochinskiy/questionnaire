@@ -19,7 +19,7 @@ async function initRepository({ collection, initialData, logger}) {
 
             try {
                 const cursor = await collection.find();
-                result = cursor.toArray();
+                result = await cursor.toArray();
             } catch (e) {
                 logger.err(e);
             }
