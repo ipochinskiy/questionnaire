@@ -9,7 +9,7 @@ async function initRepository({ collection, initialData, logger}) {
         try {
             await collection.insertMany(initialData);
         } catch (e) {
-            logger.warn(`Couldn't process initial data`, e);
+            logger.warn(`Couldn't insert initial data`, e);
         }
     }
 

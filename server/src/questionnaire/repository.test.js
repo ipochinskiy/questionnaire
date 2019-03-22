@@ -73,7 +73,7 @@ describe('Questionnaire: Repository', () => {
                     assertThat(logger.warn, hasProperties({
                         callCount: is(1),
                         args: contains(contains(
-                            is(`Couldn't process initial data`),
+                            is(`Couldn't insert initial data`),
                             is({ error: true }),
                         )),
                     }));
