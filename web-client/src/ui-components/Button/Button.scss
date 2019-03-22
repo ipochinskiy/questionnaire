@@ -1,0 +1,28 @@
+@import '../../colors.scss';
+
+.Button {
+    padding: 8px 24px;
+    font-size: 16px;
+    outline: none;
+    border-radius: 16px;
+    color: $neutral2;
+    cursor: pointer;
+
+    &--primary {
+        border: 1px solid $primary1-d1;
+        background-color: $primary1;
+
+        &:hover {
+            background-color: $primary1-d1;
+        }
+    }
+
+    &--neutral {
+        border: 1px solid $neutral3-5;
+        background-color: $neutral3-4;
+
+        &:hover {
+            background-color: $neutral3-5;
+        }
+    }
+}
