@@ -10,14 +10,15 @@
     "fastify-static": "^2.3.4"
   },
   "scripts": {
-    "start": "nodemon src/index.js",
-    "test": "mocha \"./src/**/*.test.js\"",
-    "test:watch": "mocha -w \"./src/**/*.test.js\" -r ./prepareTests.js"
+    "start": "nodemon --inspect-brk=0.0.0.0 src/index.js",
+    "test": "mocha --recursive \"./src/**/*.test.js\"",
+    "test:watch": "npm test -- -w"
   },
   "devDependencies": {
     "hamjest": "^3.2.3",
     "mocha": "^6.0.2",
     "nodemon": "^1.18.10",
+    "sinon": "^7.3.0",
     "supertest": "^4.0.2"
   }
 }
