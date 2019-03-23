@@ -29,6 +29,11 @@ describe('Questionnaire: Controller', () => {
                 path: is('/api/questions'),
                 handler: func(),
             }),
+            hasProperties({
+                method: is('post'),
+                path: is('/api/answers'),
+                handler: func(),
+            }),
         )));
     });
 
@@ -52,6 +57,21 @@ describe('Questionnaire: Controller', () => {
             const result = await handler();
 
             assertThat(result, contains(1, 2, 3));
+        });
+    });
+
+    describe('POST "/api/answers"', () => {
+        let handler;
+
+        beforeEach(() => {
+            handler = controller.routes[1].handler;
+        });
+
+        it('should return dummy data', async () => {
+
+            const result = await handler();
+
+            assertThat(result, is({ success: true }));
         });
     });
 });

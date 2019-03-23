@@ -8,6 +8,13 @@ function initializeController({ repository }) {
                     return await repository.getQuestionList();
                 },
             },
+            {
+                method: 'post',
+                path: '/api/answers',
+                handler: async (request, reply) => {
+                    return { success: true };
+                },
+            },
         ],
     };
 }
