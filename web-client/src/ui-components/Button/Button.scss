@@ -12,6 +12,11 @@
         border: 1px solid $primary1-d1;
         background-color: $primary1;
 
+        &:disabled {
+            background-color: $primary1-l2;
+            cursor: not-allowed;
+        }
+
         &:hover {
             background-color: $primary1-d1;
         }
@@ -20,6 +25,11 @@
     &--neutral {
         border: 1px solid $neutral3-5;
         background-color: $neutral3-4;
+
+        &:disabled {
+            background-color: $neutral1;
+            cursor: not-allowed;
+        }
 
         &:hover {
             background-color: $neutral3-5;

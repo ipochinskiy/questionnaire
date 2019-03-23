@@ -17,11 +17,6 @@ class Panel extends Component {
         const { question: { key, type, data = {}, isRequired } = {}, selectedValue } = this.props;
         const { question, body, answers } = data;
 
-        let title = question;
-        if (isRequired) {
-            title += '\u00A0*';         // \u00A0 === &nbsp; – non-breaking space
-        }
-
         let control;
         switch (type) {
             case 'single':
@@ -65,9 +60,14 @@ class Panel extends Component {
             return null;
         }
 
+        const requiredHint = isRequired ? '*\u00A0' : '';           // \u00A0 === &nbsp; – non-breaking space
+
         return (
             <div className='Panel'>
-                {question && <div className='Panel__title'>{title}</div>}
+                <div className='Panel__title'>
+                    {requiredHint && <span className='Panel__title__hint'>{requiredHint}</span>}
+                    {question}
+                </div>
                 {body && <div className='Panel__description'>{body}</div>}
                 <div className='Panel__type'>
                     {control}

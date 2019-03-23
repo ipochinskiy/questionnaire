@@ -140,7 +140,7 @@ describe('Component: Panel', () => {
 
         it('should render an asterisk (*) after the title', () => {
 
-            expect(component).toIncludeText(`Which Avanger is the best?\u00A0*`);
+            expect(component).toIncludeText(`*\u00A0Which Avanger is the best?`);
         });
     });
 });
