@@ -28,6 +28,14 @@ async function initRepository({ questionCollection, answerCollection, initialDat
                 throw new Error(`Couldn't get questions from the db`);
             }
             return result;
+        },
+
+        saveAnswers: async (data) => {
+            const result = await answerCollection.insertOne(data);
+            console.log(JSON.stringify(result));
+            if (!result || result.ok !== 1) {
+                throw new Error(`Couldn't save data to the db`);
+            }
         }
     };
 }

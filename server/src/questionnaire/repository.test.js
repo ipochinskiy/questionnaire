@@ -44,6 +44,7 @@ describe('Questionnaire: Repository', () => {
 
                 assertThat(repository, hasProperties({
                     getQuestionList: func(),
+                    saveAnswers: func(),
                 }));
             });
         });
@@ -85,6 +86,7 @@ describe('Questionnaire: Repository', () => {
 
                     assertThat(repository, hasProperties({
                         getQuestionList: func(),
+                        saveAnswers: func(),
                     }));
                 });
             });
@@ -109,6 +111,7 @@ describe('Questionnaire: Repository', () => {
 
                     assertThat(repository, hasProperties({
                         getQuestionList: func(),
+                        saveAnswers: func(),
                     }));
                 });
             });
@@ -139,6 +142,16 @@ describe('Questionnaire: Repository', () => {
                     )),
                 }));
             });
+
+            it('should return a repository object', async () => {
+
+                repository = await initializeRepository({ questionCollection, initialData, logger });
+
+                assertThat(repository, hasProperties({
+                    getQuestionList: func(),
+                    saveAnswers: func(),
+                }));
+            });
         });
     });
 
@@ -149,12 +162,15 @@ describe('Questionnaire: Repository', () => {
                 insertMany: stub().resolves(),
                 find: stub().resolves(),
             };
+            answerCollection = {
+                insertOne: stub().resolves(),
+            };
             logger = {
                 warn: stub(),
                 err: stub(),
             };
 
-            repository = await initializeRepository({ questionCollection, initialData, logger });
+            repository = await initializeRepository({ questionCollection, answerCollection, initialData, logger });
         });
 
         describe('#getQuestionList()', () => {
@@ -208,6 +224,77 @@ describe('Questionnaire: Repository', () => {
                     const result = await repository.getQuestionList();
 
                     assertThat(result, contains(1, 2, 3));
+                });
+            });
+        });
+
+        describe('#saveAnswers()', () => {
+            describe('when "answerCollection.insert" throws', () => {
+                beforeEach(() => {
+                    answerCollection.insertOne.rejects({ error: true });
+                });
+
+                it('should throw an error', async () => {
+
+                    let thrown = false;
+                    try {
+                        await repository.saveAnswers();
+                    } catch (e) {
+                        thrown = true;
+                    }
+
+                    assertThat(thrown, is(true));
+                });
+            });
+
+            describe('when "answerCollection.insertOne" returns', () => {
+                describe('an object with "ok" equal to 1', () => {
+                    beforeEach(() => {
+                        answerCollection.insertOne.resolves({
+                            ok: 1,
+                        });
+                    });
+
+                    it('should call "answerCollection.insertOne" with the data given', async () => {
+
+                        await repository.saveAnswers({
+                            'first question': '42',
+                            'second one': '0815',
+                        });
+
+                        assertThat(answerCollection.insertOne, hasProperties({
+                            callCount: is(1),
+                            args: contains(contains(
+                                hasProperties({
+                                    'first question': '42',
+                                    'second one': '0815',
+                                }),
+                            )),
+                        }));
+                    });
+                });
+
+                describe('an object with "ok" equal 0', () => {
+                    beforeEach(() => {
+                        answerCollection.insertOne.resolves({
+                            ok: 0,
+                        });
+                    });
+
+                    it('should throw an error', async () => {
+
+                        let thrown = false;
+                        try {
+                            await repository.saveAnswers({
+                                'first question': '42',
+                                'second one': '0815',
+                            });
+                        } catch (e) {
+                            thrown = true;
+                        }
+
+                        assertThat(thrown, is(true));
+                    });
                 });
             });
         });

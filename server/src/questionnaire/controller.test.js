@@ -5,6 +5,7 @@ const {
     contains,
     hasProperties,
     func,
+    string,
 } = require('hamjest');
 const { stub } = require('sinon');
 
@@ -17,6 +18,7 @@ describe('Questionnaire: Controller', () => {
     beforeEach(() => {
         repository = {
             getQuestionList: stub().resolves(),
+            saveAnswers: stub().resolves(),
         };
         controller = initializeController({ repository });
     });
@@ -62,14 +64,36 @@ describe('Questionnaire: Controller', () => {
 
     describe('POST "/api/answers"', () => {
         let handler;
+        let formData;
 
         beforeEach(() => {
             handler = controller.routes[1].handler;
+            formData = {
+                'first question': '42',
+                'second one': '0815',
+            };
+            repository.saveAnswers.resolves({ saved: true });
+        });
+
+        it('should call "saveAnswers" on the repository', async () => {
+
+            await handler({
+                body: JSON.stringify(formData),
+            });
+
+            assertThat(repository.saveAnswers, hasProperties({
+                callCount: is(1),
+                args: contains(
+                    contains(formData),
+                ),
+            }));
         });
 
         it('should return dummy data', async () => {
 
-            const result = await handler();
+            const result = await handler({
+                body: JSON.stringify(formData),
+            });
 
             assertThat(result, is({ success: true }));
         });
