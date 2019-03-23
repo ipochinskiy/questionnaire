@@ -97,7 +97,7 @@ describe('Component: Panel', () => {
             component => component.find('Text').at(0).prop('handleChange')('If you can dream it up, you can team it up'),
             stubHandler => expect(stubHandler).toHaveBeenCalledWith('text question', 'If you can dream it up, you can team it up'),
         ],
-    ].forEach(([ description, assumption, options, checkRender, changeValue, checkState ]) => {
+    ].forEach(([ description, assumption, options, checkRender, changeValue, checkChangeHandler ]) => {
         describe(description, () => {
             let component;
 
@@ -120,9 +120,27 @@ describe('Component: Panel', () => {
 
                 it(`should update the component's state`, () => {
 
-                    checkState(props.handleValueChange);
+                    checkChangeHandler(props.handleValueChange);
                 });
             });
+        });
+    });
+
+    describe('with a required question', () => {
+        let component;
+
+        beforeEach(() => {
+            props = createComponentProps({
+                question: createRadioQuestion({
+                    isRequired: true,
+                }),
+            });
+            component = shallow(<Panel {...props} />);
+        });
+
+        it('should render an asterisk (*) after the title', () => {
+
+            expect(component).toIncludeText(`Which Avanger is the best?\u00A0*`);
         });
     });
 });

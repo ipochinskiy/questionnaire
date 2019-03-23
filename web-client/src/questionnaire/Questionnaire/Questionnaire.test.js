@@ -90,6 +90,12 @@ describe('Component: Questionnaire', () => {
         });
     });
 
+    it('should render a hint for mandatory fields', () => {
+        const component = shallow(<Questionnaire {...props} />);
+
+        expect(component).toIncludeText('* Pfilchtfeld');
+    });
+
     it('should render a submit button', () => {
         const component = shallow(<Questionnaire {...props} />);
 

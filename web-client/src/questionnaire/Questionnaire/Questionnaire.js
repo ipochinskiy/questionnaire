@@ -72,6 +72,7 @@ export class Questionnaire extends Component {
         return (
             <form className='Questionnaire' onSubmit={this.handleSubmitForm}>
                 {panelList}
+                <div className='Questionnaire__hint'>* Pfilchtfeld</div>
                 <div className='Questionnaire__buttons'>
                     <Button shape='primary' type='submit'>Submit</Button>
                     <Button shape='neutral' type='reset' onClick={this.handleResetForm}>Reset</Button>

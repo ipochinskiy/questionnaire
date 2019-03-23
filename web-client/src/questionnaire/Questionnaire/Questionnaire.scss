@@ -17,6 +17,13 @@ $standard-margin: 24px;
         }
     }
 
+    &__hint {
+        color: $secondary1-d1;
+        font-size: 20px;
+        line-height: 22px;
+        font-weight: bold;
+    }
+
     &__buttons {
         display: flex;
         justify-content: space-between;
