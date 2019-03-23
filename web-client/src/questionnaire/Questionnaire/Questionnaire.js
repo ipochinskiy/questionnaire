@@ -8,6 +8,11 @@ import './Questionnaire.scss';
 export class Questionnaire extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            answers: {},
+        };
+
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleResetForm = this.handleResetForm.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
@@ -24,7 +29,7 @@ export class Questionnaire extends Component {
         }
 
         const { questionnaireSubmitted } = this.props;
-        questionnaireSubmitted(this.state);
+        questionnaireSubmitted(this.state.answers);
     }
 
     handleResetForm(event) {
@@ -42,16 +47,22 @@ export class Questionnaire extends Component {
     }
 
     handleValueChange(key, value) {
-        if (this.state && typeof this.state[key] == 'object') {
+        if (this.state && this.state.answers && typeof this.state.answers[key] == 'object') {
             this.setState({
-                [key]: {
-                    ...this.state[key],
-                    ...value,
+                ...this.state.answers,
+                answers: {
+                    [key]: {
+                        ...this.state.answers[key],
+                        ...value,
+                    },
                 },
             });
         } else {
             this.setState({
-                [key]: value,
+                answers: {
+                    ...this.state.answers,
+                    [key]: value,
+                },
             });
         }
     }
@@ -60,7 +71,7 @@ export class Questionnaire extends Component {
         const { questionList = [] } = this.props;
 
         const panelList = questionList.map(q => {
-            const selectedValue = this.state && this.state[q.key] || null;
+            const selectedValue = this.state && this.state.answers[q.key] || null;
             return <Panel
                 key={q.key}
                 question={q}

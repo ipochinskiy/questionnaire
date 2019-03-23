@@ -34,12 +34,14 @@ describe('Component: Questionnaire', () => {
         beforeEach(() => {
             component = shallow(<Questionnaire {...props} />);
             component.setState({
+                answers: {
                 'first question': '42',
                 'second one': '0815',
+                },
             });
         });
 
-        it('should set thos values as "selectedValue" on the panels', () => {
+        it('should set those values as "selectedValue" on the panels', () => {
 
             expect(component.find('Panel').at(0).props()).toMatchObject({
                 question: { key: 'first question' },
@@ -65,8 +67,10 @@ describe('Component: Questionnaire', () => {
         it('should set the state to this value', () => {
 
             expect(component).toHaveState({
+                answers: {
                 'best_avenger': {
                     'the_smartest': 'iman',
+                },
                 },
             });
         });
@@ -81,9 +85,11 @@ describe('Component: Questionnaire', () => {
             it('should amend the state and keep previous info', () => {
 
                 expect(component).toHaveState({
-                    'best_avenger': {
-                        'the_smartest': 'iman',
-                        'the_strongest': 'hulk',
+                    answers: {
+                        'best_avenger': {
+                            'the_smartest': 'iman',
+                            'the_strongest': 'hulk',
+                        },
                     },
                 });
             });
@@ -112,15 +118,17 @@ describe('Component: Questionnaire', () => {
         beforeEach(() => {
             component = shallow(<Questionnaire {...props} />);
             component.setState({
+                answers: {
                 'first question': '42',
                 'second one': '0815',
+                },
             });
             component.find('form').simulate('submit', {
                 preventDefault: jest.fn(),
             });
         });
 
-        it(`should dispatch "questionnaireSubmitted"[ with the current component's state]`, () => {
+        it(`should dispatch "questionnaireSubmitted" with the current component's state`, () => {
             shallow(<Questionnaire {...props} />);
 
             expect(props.questionnaireSubmitted).toHaveBeenCalledTimes(1);
