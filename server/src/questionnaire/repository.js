@@ -1,13 +1,13 @@
-async function initRepository({ collection, initialData, logger}) {
+async function initRepository({ questionCollection, answerCollection, initialData, logger}) {
     try {
-        await collection.createIndex({ 'key': 1 }, { unique: true });
+        await questionCollection.createIndex({ 'key': 1 }, { unique: true });
     } catch (e) {
         logger.warn(`Couldn't create index`, e);
     }
 
     if (!!initialData) {
         try {
-            await collection.insertMany(initialData);
+            await questionCollection.insertMany(initialData);
         } catch (e) {
             logger.warn(`Couldn't insert initial data`, e);
         }
@@ -18,7 +18,7 @@ async function initRepository({ collection, initialData, logger}) {
             let result;
 
             try {
-                const cursor = await collection.find();
+                const cursor = await questionCollection.find();
                 result = await cursor.toArray();
             } catch (e) {
                 logger.err(e);
