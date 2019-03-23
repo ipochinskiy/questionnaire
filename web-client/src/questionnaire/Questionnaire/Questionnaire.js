@@ -71,7 +71,10 @@ export class Questionnaire extends Component {
         const { questionList = [] } = this.props;
 
         const panelList = questionList.map(q => {
-            const selectedValue = this.state && this.state.answers[q.key] || null;
+            let selectedValue = null;
+            if (this.state && this.state.answers && this.state.answers[q.key] != undefined) {
+                selectedValue = this.state.answers[q.key];
+            }
             return <Panel
                 key={q.key}
                 question={q}

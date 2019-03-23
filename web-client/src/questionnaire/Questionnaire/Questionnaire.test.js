@@ -36,7 +36,7 @@ describe('Component: Questionnaire', () => {
             component.setState({
                 answers: {
                 'first question': '42',
-                'second one': '0815',
+                    'second one': false,
                 },
             });
         });
@@ -49,7 +49,7 @@ describe('Component: Questionnaire', () => {
             });
             expect(component.find('Panel').at(1).props()).toMatchObject({
                 question: { key: 'second one' },
-                selectedValue: '0815',
+                selectedValue: false,
             });
         });
     });
