@@ -35,7 +35,7 @@ describe('Component: Questionnaire', () => {
             component = shallow(<Questionnaire {...props} />);
             component.setState({
                 answers: {
-                'first question': '42',
+                    'first question': '42',
                     'second one': false,
                 },
             });
@@ -68,9 +68,9 @@ describe('Component: Questionnaire', () => {
 
             expect(component).toHaveState({
                 answers: {
-                'best_avenger': {
-                    'the_smartest': 'iman',
-                },
+                    'best_avenger': {
+                        'the_smartest': 'iman',
+                    },
                 },
             });
         });
@@ -102,39 +102,135 @@ describe('Component: Questionnaire', () => {
         expect(component).toIncludeText('* Pfilchtfeld');
     });
 
-    it('should render a submit button', () => {
+    it('should render a disabled submit button', () => {
         const component = shallow(<Questionnaire {...props} />);
 
         expect(component.find('Button').at(0).props()).toMatchObject({
             shape: 'primary',
             type: 'submit',
+            disabled: true,
             children: 'Submit',
         });
     });
 
-    describe('after submitting the form', () => {
+    describe('with a few mandatory and optional questions of type "single"', () => {
         let component;
 
         beforeEach(() => {
-            component = shallow(<Questionnaire {...props} />);
-            component.setState({
-                answers: {
-                'first question': '42',
-                'second one': '0815',
-                },
+            props = createComponentProps({
+                questionList: [
+                    { key: 'mandatory single question', type: 'single', isRequired: true },
+                    { key: 'optional single question', type: 'single', isRequired: false },
+                ],
             });
-            component.find('form').simulate('submit', {
-                preventDefault: jest.fn(),
+            component = shallow(<Questionnaire {...props} />);
+        });
+
+        describe('after a mandatory question of type "single" gets filled out', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory single question', 'some value');
+            });
+
+            it('should render the submit button enabled', () => {
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: false,
+                    children: 'Submit',
+                });
+            });
+
+            describe('and after submitting the form', () => {
+                beforeEach(() => {
+                    component.find('form').simulate('submit', {
+                        preventDefault: jest.fn(),
+                    });
+                });
+
+                it(`should dispatch "questionnaireSubmitted" with the current component's state`, () => {
+
+                    expect(props.questionnaireSubmitted).toHaveBeenCalledTimes(1);
+                    expect(props.questionnaireSubmitted).toHaveBeenCalledWith({
+                        'mandatory single question': 'some value',
+                    });
+                });
             });
         });
 
-        it(`should dispatch "questionnaireSubmitted" with the current component's state`, () => {
-            shallow(<Questionnaire {...props} />);
+        describe('after an optional question of type "single" gets filled out', () => {
+            beforeEach(() => {
+                component.find('Panel').at(1).prop('handleValueChange')('optional single question', 'some value');
+            });
 
-            expect(props.questionnaireSubmitted).toHaveBeenCalledTimes(1);
-            expect(props.questionnaireSubmitted).toHaveBeenCalledWith({
-                'first question': '42',
-                'second one': '0815',
+            it('should render a disabled submit button', () => {
+                const component = shallow(<Questionnaire {...props} />);
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: true,
+                    children: 'Submit',
+                });
+            });
+        });
+    });
+
+    describe('with a mandatory question of type "multiple"', () => {
+        let component;
+
+        beforeEach(() => {
+            props = createComponentProps({
+                questionList: [
+                    {
+                        key: 'mandatory multiple question',
+                        type: 'multiple',
+                        isRequired: true,
+                        data: {
+                            answers: [
+                                { key: 'first part' },
+                                { key: 'second part' },
+                            ],
+                        },
+                    },
+                ],
+            });
+            component = shallow(<Questionnaire {...props} />);
+        });
+
+        describe('after the first part of the question gets filled out', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory multiple question', {
+                    'first part': 'some value',
+                });
+            });
+
+            it('should render a disabled submit button', () => {
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: true,
+                    children: 'Submit',
+                });
+            });
+
+            describe('and after the last part of the question gets filled out', () => {
+                beforeEach(() => {
+                    component.find('Panel').at(0).prop('handleValueChange')('mandatory multiple question', {
+                        'second part': false,
+                    });
+                });
+
+                it('should render a disabled submit button', () => {
+
+                    expect(component.find('Button').at(0).props()).toMatchObject({
+                        shape: 'primary',
+                        type: 'submit',
+                        disabled: false,
+                        children: 'Submit',
+                    });
+                });
             });
         });
     });

@@ -11,11 +11,13 @@ export class Questionnaire extends Component {
 
         this.state = {
             answers: {},
+            isFormValid: false,
         };
 
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleResetForm = this.handleResetForm.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
+        this.isFormValid = this.isFormValid.bind(this);
     }
 
     componentDidMount() {
@@ -47,7 +49,7 @@ export class Questionnaire extends Component {
     }
 
     handleValueChange(key, value) {
-        if (this.state && this.state.answers && typeof this.state.answers[key] == 'object') {
+        if (this.state && this.state.answers && typeof this.state.answers[key] === 'object') {
             this.setState({
                 ...this.state.answers,
                 answers: {
@@ -56,6 +58,10 @@ export class Questionnaire extends Component {
                         ...value,
                     },
                 },
+            }, () => {
+                this.setState({
+                    isFormValid: this.isFormValid(),
+                });
             });
         } else {
             this.setState({
@@ -63,18 +69,41 @@ export class Questionnaire extends Component {
                     ...this.state.answers,
                     [key]: value,
                 },
+            }, () => {
+                this.setState({
+                    isFormValid: this.isFormValid(),
+                });
             });
         }
     }
 
+    isFormValid() {
+        const { questionList = [] } = this.props;
+        const { answers: formData = {} } = this.state;
+
+        return questionList.reduce((memo, { key, type, data, isRequired }) => {
+            let isValid = false;
+            if (type === 'multiple') {
+                isValid = data.answers.reduce((memo, { key: optionKey }) => {
+                    return memo && formData[key] && formData[key][optionKey] !== undefined;
+                }, true);
+            } else {
+                isValid = !isRequired || !!formData[key];
+            }
+            return memo && isValid;
+        }, true);
+    }
+
     render() {
         const { questionList = [] } = this.props;
+        const { isFormValid } = this.state;
 
         const panelList = questionList.map(q => {
             let selectedValue = null;
             if (this.state && this.state.answers && this.state.answers[q.key] != undefined) {
                 selectedValue = this.state.answers[q.key];
             }
+
             return <Panel
                 key={q.key}
                 question={q}
@@ -88,7 +117,7 @@ export class Questionnaire extends Component {
                 {panelList}
                 <div className='Questionnaire__hint'>* Pfilchtfeld</div>
                 <div className='Questionnaire__buttons'>
-                    <Button shape='primary' type='submit'>Submit</Button>
+                    <Button shape='primary' type='submit' disabled={!isFormValid}>Submit</Button>
                     <Button shape='neutral' type='reset' onClick={this.handleResetForm}>Reset</Button>
                 </div>
             </form>
