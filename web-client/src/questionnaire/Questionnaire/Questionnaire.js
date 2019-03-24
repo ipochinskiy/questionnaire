@@ -102,6 +102,7 @@ export class Questionnaire extends Component {
 
         const panelList = questionList.map(q => {
             let selectedValue = null;
+            // eslint-disable-next-line
             if (this.state && this.state.answers && this.state.answers[q.key] != undefined) {
                 selectedValue = this.state.answers[q.key];
             }
