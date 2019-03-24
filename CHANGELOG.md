@@ -1,3 +1,7 @@
+# 0.6.0 (2019-03-24)
+
+* update README
+
 # 0.5.0 (2019-03-24)
 
 * add form validation
