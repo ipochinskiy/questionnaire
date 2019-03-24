@@ -6,9 +6,11 @@ const initializeRepository = require('./repository');
 async function routes(fastify, options) {
     const db = fastify.mongo.client.db('questionnaire');
     const questionCollection = db.collection('questions');
+    const answerCollection = db.collection('answers');
 
     const repository = await initializeRepository({
-        collection: questionCollection,
+        questionCollection,
+        answerCollection,
         initialData: INITIAL_DATA,
         logger: fastify.log,
     });

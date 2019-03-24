@@ -14,7 +14,7 @@ describe('Component: Select', () => {
 
         expect(component.find('.Select').props()).toMatchObject({
             name: 'avengers',
-            defaultValue: 'Iron Man',
+            defaultValue: 'default',
         });
     });
 
@@ -22,12 +22,16 @@ describe('Component: Select', () => {
         const component = shallow(<Select {...props} />);
         const optionList = component.find('.Select option');
 
-        expect(optionList.at(0)).toIncludeText('Iron Man');
+        expect(optionList.at(0)).toIncludeText('Wähle aus');
         expect(optionList.at(0).props()).toMatchObject({
+            value: 'default',
+        });
+        expect(optionList.at(1)).toIncludeText('Iron Man');
+        expect(optionList.at(1).props()).toMatchObject({
             value: 'Iron Man',
         });
-        expect(optionList.at(1)).toIncludeText('Captain America');
-        expect(optionList.at(1).props()).toMatchObject({
+        expect(optionList.at(2)).toIncludeText('Captain America');
+        expect(optionList.at(2).props()).toMatchObject({
             value: 'Captain America',
         });
     });
@@ -35,7 +39,11 @@ describe('Component: Select', () => {
     describe('after a value getting selected', () => {
         beforeEach(() => {
             const component = shallow(<Select {...props} />);
-            component.find('.Select option').at(1).simulate('click');
+            component.find('.Select').at(0).simulate('change', {
+                target: {
+                    value: 'Captain America',
+                },
+            });
         });
 
         it('should call "handleSelect', () => {

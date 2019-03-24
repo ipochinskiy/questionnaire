@@ -9,24 +9,13 @@ class Panel extends Component {
     }
 
     handleValueChange(key, value) {
-        if (this.state && typeof this.state[key] == 'object') {
-            this.setState({
-                [key]: {
-                    ...this.state[key],
-                    ...value,
-                },
-            });
-        } else {
-            this.setState({
-                [key]: value,
-            });
-        }
+        const { handleValueChange } = this.props;
+        handleValueChange(key, value);
     }
 
     render() {
-        const { question: { key, type, data = {}, isRequired } = {} } = this.props;
+        const { question: { key, type, data = {}, isRequired } = {}, selectedValue } = this.props;
         const { question, body, answers } = data;
-        const selectedValue = this.state && this.state[key];
 
         let control;
         switch (type) {
@@ -71,9 +60,14 @@ class Panel extends Component {
             return null;
         }
 
+        const requiredHint = isRequired ? '*\u00A0' : '';           // \u00A0 === &nbsp; – non-breaking space
+
         return (
             <div className='Panel'>
-                {question && <div className='Panel__title'>{question}</div>}
+                <div className='Panel__title'>
+                    {requiredHint && <span className='Panel__title__hint'>{requiredHint}</span>}
+                    {question}
+                </div>
                 {body && <div className='Panel__description'>{body}</div>}
                 <div className='Panel__type'>
                     {control}

@@ -3,8 +3,6 @@
 $standard-margin: 24px;
 
 .Questionnaire {
-    background-color: $neutral3;
-
     padding: $standard-margin;
     overflow-x: hidden;
     overflow-y: auto;
@@ -15,5 +13,23 @@ $standard-margin: 24px;
         &:last-child {
             margin-bottom: 0;
         }
+    }
+
+    &__hint {
+        color: $secondary1-d1;
+        font-size: 20px;
+        line-height: 22px;
+        font-weight: bold;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__gratitude {
+        font-size: 40px;
+        line-height: 48px;
+        text-align: center;
     }
 }

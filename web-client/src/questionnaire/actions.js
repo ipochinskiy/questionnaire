@@ -1,12 +1,27 @@
 export const ActionTypes = {
-    APP_LOADED:                '[App] App Loaded',
-    QUESTION_LIST_LOADED:      '[App] Question List Loaded',
-    FETCH_FAILED:              '[App] Fetch failed',
+    APP_LOADED:                         '[App] App Loaded',
+    QUESTIONNAIRE_SUBMITTED:            '[App] Questionnaire Submitted',
+    QUESTIONNAIRE_SUBMIT_SUCCEEDED:     '[App] Questionnaire Submit Succeeded',
+    QUESTION_LIST_LOADED:               '[App] Question List Loaded',
+    FETCH_FAILED:                       '[App] Fetch failed',
 };
 
 export function appLoaded() {
     return {
         type: ActionTypes.APP_LOADED,
+    };
+}
+
+export function questionnaireSubmitted(questionnaire) {
+    return {
+        type: ActionTypes.QUESTIONNAIRE_SUBMITTED,
+        payload: { questionnaire },
+    };
+}
+
+export function questionnaireSubmitSucceeded() {
+    return {
+        type: ActionTypes.QUESTIONNAIRE_SUBMIT_SUCCEEDED,
     };
 }
 

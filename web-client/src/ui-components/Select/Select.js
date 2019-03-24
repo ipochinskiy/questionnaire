@@ -5,13 +5,14 @@ const Select = ({ name, valueList = [], handleSelect }) => (
     <select
         name={name}
         className='Select'
-        defaultValue={valueList[0]}
+        defaultValue='default'
+        onChange={(event) => event && event.target && handleSelect(event.target.value)}
     >
+        <option value='default' disabled={true}>Wähle aus</option>
         {valueList.map(value => (
             <option
                 key={value}
                 value={value}
-                onClick={() => handleSelect(value)}
             >
                 {value}
             </option>
