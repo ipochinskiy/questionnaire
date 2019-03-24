@@ -250,9 +250,7 @@ describe('Questionnaire: Repository', () => {
             describe('when "answerCollection.insertOne" returns', () => {
                 describe('an object with "ok" equal to 1', () => {
                     beforeEach(() => {
-                        answerCollection.insertOne.resolves({
-                            ok: 1,
-                        });
+                        answerCollection.insertOne.resolves({ success: true });
                     });
 
                     it('should call "answerCollection.insertOne" with the data given', async () => {
@@ -271,29 +269,6 @@ describe('Questionnaire: Repository', () => {
                                 }),
                             )),
                         }));
-                    });
-                });
-
-                describe('an object with "ok" equal 0', () => {
-                    beforeEach(() => {
-                        answerCollection.insertOne.resolves({
-                            ok: 0,
-                        });
-                    });
-
-                    it('should throw an error', async () => {
-
-                        let thrown = false;
-                        try {
-                            await repository.saveAnswers({
-                                'first question': '42',
-                                'second one': '0815',
-                            });
-                        } catch (e) {
-                            thrown = true;
-                        }
-
-                        assertThat(thrown, is(true));
                     });
                 });
             });

@@ -31,11 +31,7 @@ async function initRepository({ questionCollection, answerCollection, initialDat
         },
 
         saveAnswers: async (data) => {
-            const result = await answerCollection.insertOne(data);
-            console.log(JSON.stringify(result));
-            if (!result || result.ok !== 1) {
-                throw new Error(`Couldn't save data to the db`);
-            }
+            await answerCollection.insertOne(data);
         }
     };
 }
