@@ -35,7 +35,11 @@ describe('Component: Select', () => {
     describe('after a value getting selected', () => {
         beforeEach(() => {
             const component = shallow(<Select {...props} />);
-            component.find('.Select option').at(1).simulate('click');
+            component.find('.Select').at(0).simulate('change', {
+                target: {
+                    value: 'Captain America',
+                },
+            });
         });
 
         it('should call "handleSelect', () => {

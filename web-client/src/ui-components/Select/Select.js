@@ -6,12 +6,12 @@ const Select = ({ name, valueList = [], handleSelect }) => (
         name={name}
         className='Select'
         defaultValue={valueList[0]}
+        onChange={(event) => event && event.target && handleSelect(event.target.value)}
     >
         {valueList.map(value => (
             <option
                 key={value}
                 value={value}
-                onClick={() => handleSelect(value)}
             >
                 {value}
             </option>
