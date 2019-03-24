@@ -49,37 +49,30 @@ export class Questionnaire extends Component {
     }
 
     handleValueChange(key, value) {
+        let answers = {};
+
         if (this.state && this.state.answers && typeof this.state.answers[key] === 'object') {
-            this.setState({
-                ...this.state.answers,
-                answers: {
-                    [key]: {
-                        ...this.state.answers[key],
-                        ...value,
-                    },
+            answers = {
+                [key]: {
+                    ...this.state.answers[key],
+                    ...value,
                 },
-            }, () => {
-                this.setState({
-                    isFormValid: this.isFormValid(),
-                });
-            });
+            };
         } else {
-            this.setState({
-                answers: {
-                    ...this.state.answers,
-                    [key]: value,
-                },
-            }, () => {
-                this.setState({
-                    isFormValid: this.isFormValid(),
-                });
-            });
+            answers = {
+                ...this.state.answers,
+                [key]: value,
+            };
         }
+
+        this.setState({
+            answers,
+            isFormValid: this.isFormValid(answers),
+        });
     }
 
-    isFormValid() {
+    isFormValid(formData) {
         const { questionList = [] } = this.props;
-        const { answers: formData = {} } = this.state;
 
         return questionList.reduce((memo, { key, type, data, isRequired }) => {
             let isValid = false;
