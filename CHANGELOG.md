@@ -1,3 +1,11 @@
+# 0.5.0 (2019-03-24)
+
+* add form validation
+* submit form and store answers in the database
+* fix not being able to change value of a Select
+* fix being unable to select option "false"
+* fix resetting of all the other selected values after amending the one of type "multiple"
+
 # 0.4.0 (2019-03-22)
 
 * use a database for getting questions instead of serving a static file
