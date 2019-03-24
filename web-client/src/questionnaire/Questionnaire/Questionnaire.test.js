@@ -15,6 +15,12 @@ describe('Component: Questionnaire', () => {
         expect(props.appLoaded).toHaveBeenCalledTimes(1);
     });
 
+    it('should not render gratitude', () => {
+        const component = shallow(<Questionnaire {...props} />);
+
+        expect(component).not.toIncludeText('Danke, Ihre Daten werden bearbeitet');
+    });
+
     it('should render two question panels', () => {
         const component = shallow(<Questionnaire {...props} />);
 
@@ -441,6 +447,27 @@ describe('Component: Questionnaire', () => {
             });
         });
     });
+
+    describe('with "isQuestionnaireSubmitted" equal to true', () => {
+        let component;
+
+        beforeEach(() => {
+            props = createComponentProps({
+                isQuestionnaireSubmitted: true,
+            });
+            component = shallow(<Questionnaire {...props} />);
+        });
+
+        it('should not render the form', () => {
+
+            expect(component.find('form')).not.toExist();
+        });
+
+        it('should render gratitude', () => {
+
+            expect(component).toIncludeText('Danke, Ihre Daten werden bearbeitet');
+        });
+    });
 });
 
 function createComponentProps(options = {}) {
@@ -449,6 +476,7 @@ function createComponentProps(options = {}) {
             { key: 'first question' },
             { key: 'second one' },
         ],
+        isQuestionnaireSubmitted: false,
         appLoaded: jest.fn(),
         questionnaireSubmitted: jest.fn(),
         ...options,

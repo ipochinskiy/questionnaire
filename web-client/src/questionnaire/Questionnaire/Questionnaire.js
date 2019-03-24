@@ -91,8 +91,18 @@ export class Questionnaire extends Component {
     }
 
     render() {
-        const { questionList = [] } = this.props;
+        const { questionList = [], isQuestionnaireSubmitted } = this.props;
         const { isFormValid } = this.state;
+
+        if (isQuestionnaireSubmitted) {
+            return (
+                <div className='Questionnaire'>
+                    <div className='Questionnaire__gratitude'>
+                        Danke, Ihre Daten werden bearbeitet
+                    </div>
+                </div>
+            );
+        }
 
         const panelList = questionList.map(q => {
             let selectedValue = null;
@@ -125,6 +135,7 @@ export class Questionnaire extends Component {
 const mapStateToProps = state => {
     return {
         questionList: state.questionList,
+        isQuestionnaireSubmitted: state.isQuestionnaireSubmitted,
     };
 };
 

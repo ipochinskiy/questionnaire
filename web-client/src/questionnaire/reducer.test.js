@@ -1,4 +1,4 @@
-import { appLoaded, questionListLoaded } from './actions';
+import { appLoaded, questionListLoaded, questionnaireSubmitSucceeded } from './actions';
 import reducer from './reducer';
 
 describe('Reducer', () => {
@@ -25,14 +25,14 @@ describe('Reducer', () => {
 
             const state = reducer(initialState, appLoaded());
 
-            expect(state).toMatchObject({
-                questionList: [],
-            });
+            expect(state).toMatchObject(
+                createState()
+            );
         });
     });
 
     describe('with action of type "QUESTION_LIST_LOADED"', () => {
-        it('should return initial state', () => {
+        it('should set "questionList"', () => {
             const initialState = undefined;
             const questionList = [
                 { id: 'first question' },
@@ -46,11 +46,24 @@ describe('Reducer', () => {
             });
         });
     });
+
+    describe('with action of type "QUESTIONNAIRE_SUBMIT_SUCCEEDED"', () => {
+        it('should return initial state', () => {
+            const initialState = undefined;
+
+            const state = reducer(initialState, questionnaireSubmitSucceeded());
+
+            expect(state).toMatchObject({
+                isQuestionnaireSubmitted: true,
+            });
+        });
+    });
 });
 
 function createState(options) {
     return {
         questionList: [],
+        isQuestionnaireSubmitted: false,
         ...options,
     };
 }
