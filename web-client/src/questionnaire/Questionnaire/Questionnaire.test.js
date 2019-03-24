@@ -128,7 +128,7 @@ describe('Component: Questionnaire', () => {
 
         describe('after a mandatory question of type "single" gets filled out', () => {
             beforeEach(() => {
-                component.find('Panel').at(0).prop('handleValueChange')('mandatory single question', 'some value');
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory single question', false);
             });
 
             it('should render the submit button enabled', () => {
@@ -152,7 +152,7 @@ describe('Component: Questionnaire', () => {
 
                     expect(props.questionnaireSubmitted).toHaveBeenCalledTimes(1);
                     expect(props.questionnaireSubmitted).toHaveBeenCalledWith({
-                        'mandatory single question': 'some value',
+                        'mandatory single question': false,
                     });
                 });
             });

@@ -88,7 +88,7 @@ export class Questionnaire extends Component {
                     return memo && formData[key] && formData[key][optionKey] !== undefined;
                 }, true);
             } else {
-                isValid = !isRequired || !!formData[key];
+                isValid = !isRequired || formData[key] !== undefined;
             }
             return memo && isValid;
         }, true);
