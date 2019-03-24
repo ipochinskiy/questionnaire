@@ -59,6 +59,11 @@ describe('Component: Questionnaire', () => {
 
         beforeEach(() => {
             component = shallow(<Questionnaire {...props} />);
+            component.setState({
+                answers: {
+                    'son of Odin': 'Thor',
+                },
+            });
             component.find('Panel').at(0).prop('handleValueChange')('best_avenger', {
                 'the_smartest': 'iman',
             });
@@ -68,6 +73,7 @@ describe('Component: Questionnaire', () => {
 
             expect(component).toHaveState({
                 answers: {
+                    'son of Odin': 'Thor',
                     'best_avenger': {
                         'the_smartest': 'iman',
                     },
@@ -86,6 +92,7 @@ describe('Component: Questionnaire', () => {
 
                 expect(component).toHaveState({
                     answers: {
+                        'son of Odin': 'Thor',
                         'best_avenger': {
                             'the_smartest': 'iman',
                             'the_strongest': 'hulk',

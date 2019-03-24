@@ -51,8 +51,9 @@ export class Questionnaire extends Component {
     handleValueChange(key, value) {
         let answers = {};
 
-        if (this.state && this.state.answers && typeof this.state.answers[key] === 'object') {
+        if (typeof this.state.answers[key] === 'object') {
             answers = {
+                ...this.state.answers,
                 [key]: {
                     ...this.state.answers[key],
                     ...value,
