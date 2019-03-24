@@ -87,6 +87,8 @@ export class Questionnaire extends Component {
                 isValid = data.answers.reduce((memo, { key: optionKey }) => {
                     return memo && formData[key] && formData[key][optionKey] !== undefined;
                 }, true);
+            } else if (type === 'text' || type === 'textarea') {
+                isValid = !isRequired || !!formData[key];
             } else {
                 isValid = !isRequired || formData[key] !== undefined;
             }

@@ -176,6 +176,96 @@ describe('Component: Questionnaire', () => {
         });
     });
 
+    describe('with a mandatory question of type "text"', () => {
+        let component;
+
+        beforeEach(() => {
+            props = createComponentProps({
+                questionList: [
+                    { key: 'mandatory text question', type: 'text', isRequired: true },
+                ],
+            });
+            component = shallow(<Questionnaire {...props} />);
+        });
+
+        describe('after a mandatory question of type "text" gets filled out', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory text question', 'some value');
+            });
+
+            it('should render the submit button enabled', () => {
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: false,
+                    children: 'Submit',
+                });
+            });
+        });
+
+        describe('after a mandatory question of type "text" gets filled out with an empty string', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory text question', '');
+            });
+
+            it('should render the submit button enabled', () => {
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: true,
+                    children: 'Submit',
+                });
+            });
+        });
+    });
+
+    describe('with a mandatory question of type "textarea"', () => {
+        let component;
+
+        beforeEach(() => {
+            props = createComponentProps({
+                questionList: [
+                    { key: 'mandatory textarea question', type: 'textarea', isRequired: true },
+                ],
+            });
+            component = shallow(<Questionnaire {...props} />);
+        });
+
+        describe('after a mandatory question of type "textarea" gets filled out', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory textarea question', 'some value');
+            });
+
+            it('should render the submit button enabled', () => {
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: false,
+                    children: 'Submit',
+                });
+            });
+        });
+
+        describe('after a mandatory question of type "textarea" gets filled out with an empty string', () => {
+            beforeEach(() => {
+                component.find('Panel').at(0).prop('handleValueChange')('mandatory textarea question', '');
+            });
+
+            it('should render the submit button enabled', () => {
+
+                expect(component.find('Button').at(0).props()).toMatchObject({
+                    shape: 'primary',
+                    type: 'submit',
+                    disabled: true,
+                    children: 'Submit',
+                });
+            });
+        });
+    });
+
     describe('with a mandatory question of type "multiple"', () => {
         let component;
 
